@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TechStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="logo">Tech<span>Store</span></a>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Поиск товаров...">
+                <button onclick="filterProducts()"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="user-info">
+                <a href="/orders.html" class="nav-link"><i class="fas fa-box"></i> Заказы</a>
+                <div class="cart-icon-wrapper" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </div>
+                <span class="user-name" id="userName"><i class="fas fa-user"></i> Гость</span>
+                <a href="/login.html" class="login-btn" id="loginLink"><i class="fas fa-sign-in-alt"></i> Войти</a>
+                <button class="logout-btn" id="logoutBtn" onclick="logout()" style="display: none;"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Фильтры -->
+    <div class="filters-container">
+        <div class="filters-content">
+            <i class="fas fa-filter"></i>
+            <select id="categoryFilter" onchange="filterProducts()">
+                <option value="all">Все категории</option>
+                <option value="Смартфоны">Смартфоны</option>
+                <option value="Ноутбуки">Ноутбуки</option>
+                <option value="Наушники">Наушники</option>
+            </select>
+            <input type="number" id="minPrice" placeholder="Цена от" onkeyup="filterProducts()">
+            <input type="number" id="maxPrice" placeholder="Цена до" onkeyup="filterProducts()">
+            <select id="sortBy" onchange="filterProducts()">
+                <option value="default">По умолчанию</option>
+                <option value="price_asc">Цена ↑</option>
+                <option value="price_desc">Цена ↓</option>
+            </select>
+            <button class="reset-filters" onclick="resetFilters()"><i class="fas fa-undo"></i></button>
+        </div>
+    </div>
+
+    <!-- Админ панель -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <h2><i class="fas fa-crown"></i> Админ панель</h2>
+        <div class="add-product-form">
+            <input type="text" id="productName" placeholder="Название">
+            <input type="number" id="productPrice" placeholder="Цена">
+            <input type="text" id="productCategory" placeholder="Категория">
+            <input type="text" id="productDesc" placeholder="Описание">
+            <input type="url" id="productImage" placeholder="URL картинки">
+            <button onclick="addProduct()"><i class="fas fa-plus"></i> Добавить</button>
+        </div>
+        <div id="jsonOutput" class="json-output" style="display: none;">
+            <h3>JSON дамп продуктов</h3>
+            <pre id="jsonData"></pre>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="products-section">
+            <div id="products-count"></div>
+            <div id="products" class="products-grid"></div>
+        </div>
+    </div>
+
+    <!-- Боковая панель корзины -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-bag"></i> Корзина</h3>
+            <button class="close-cart" onclick="closeCart()">×</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <div class="empty-cart">🛒 Корзина пуста</div>
+        </div>
+        <div id="cart-total" class="cart-total" style="display: none;">
+            <div class="total-row">
+                <strong>Итого:</strong>
+                <strong id="total">0 ₽</strong>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">
+                <i class="fas fa-credit-card"></i> Оформить заказ
+            </button>
+        </div>
+    </div>
+
+    <!-- СКРИПТЫ ДОЛЖНЫ БЫТЬ В КОНЦЕ -->
+    <script src="app.js"></script>
+    
+    <!-- ДОПОЛНИТЕЛЬНЫЙ СКРИПТ ДЛЯ КОРЗИНЫ (НА ВСЯКИЙ СЛУЧАЙ) -->
+    <script>
+        function toggleCart() {
+            var sidebar = document.getElementById('cartSidebar');
+            if (sidebar) {
+                if (sidebar.style.right === '0px') {
+                    sidebar.style.right = '-400px';
+                } else {
+                    sidebar.style.right = '0px';
+                }
+            }
+        }
+        
+        function closeCart() {
+            var sidebar = document.getElementById('cartSidebar');
+            if (sidebar) {
+                sidebar.style.right = '-400px';
+            }
+        }
+        
+        // Проверяем что функции определены
+        console.log('toggleCart defined:', typeof toggleCart);
+        console.log('closeCart defined:', typeof closeCart);
+    </script>
+</body>
+</html>
